@@ -1,3 +1,5 @@
+#Number of occurrence in an Given Array
+
 class Solution:
     def lower_bound(self, arr, n, x):
         l, r = 0, n - 1
