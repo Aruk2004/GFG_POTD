@@ -1,4 +1,4 @@
-#Surround the 1's in an Given Matrix
+#Surrounded 1's in an Given Matrix
 
 class Solution:
     dx = [-1, 1, 0, 0, -1, -1, 1, 1]
