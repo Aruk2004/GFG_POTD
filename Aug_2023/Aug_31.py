@@ -1,4 +1,11 @@
-#AVL Tree Deletion
+#AVL Tree node deletion
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        self.height = 1
 
 def height(node):
     if node is None:
@@ -40,16 +47,14 @@ def successor_inorder(root):
         curr = curr.left
     return curr
 
-def deleteNode(root, data):
-    if not root:
+def delete_node(root, data):
+    if root is None:
         return root
 
     if data < root.data:
-        root.left = deleteNode(root.left, data)
-        
+        root.left = delete_node(root.left, data)
     elif data > root.data:
-        root.right = deleteNode(root.right, data)
-        
+        root.right = delete_node(root.right, data)
     else:
         if root.left is None and root.right is None:
             return None
@@ -57,12 +62,12 @@ def deleteNode(root, data):
             return root.right
         elif root.right is None:
             return root.left
-        
+
         successor = successor_inorder(root.right)
         root.data = successor.data
-        root.right = deleteNode(root.right, successor.data)
+        root.right = delete_node(root.right, successor.data)
 
-    if not root:
+    if root is None:
         return root
 
     root.height = max(height(root.left), height(root.right)) + 1
@@ -85,39 +90,64 @@ def deleteNode(root, data):
         root.right = right_rotate(root.right)
         return left_rotate(root)
 
-#Driver code
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.left = None
-        self.right = None
-        self.height = 1  # Initial height for a new node is 1
-
-# Insert a node into the AVL tree
 def insert(root, data):
     if root is None:
         return Node(data)
     
+    # Perform regular BST insertion
     if data < root.data:
         root.left = insert(root.left, data)
-    else:
+    elif data > root.data:
         root.right = insert(root.right, data)
-    
+    else:
+        # Duplicate values are not allowed, so return the current root
+        return root
+
+    # Update the height of the current node
     root.height = max(height(root.left), height(root.right)) + 1
+
+    # Check and balance the node after insertion
     balance = get_balance_factor(root)
-    
-    # Perform rotations to restore AVL balance
-    # ... (similar to the rotations in your code)
+
+    # Left Heavy
+    if balance > 1:
+        if data < root.left.data:
+            return right_rotate(root)
+        else:
+            root.left = left_rotate(root.left)
+            return right_rotate(root)
+
+    # Right Heavy
+    if balance < -1:
+        if data > root.right.data:
+            return left_rotate(root)
+        else:
+            root.right = right_rotate(root.right)
+            return left_rotate(root)
 
     return root
 
-# Example usage
+
+def print_tree(root, level=0, prefix="Root: "):
+    if root is not None:
+        print(" " * (level * 4) + prefix + str(root.data))
+        print_tree(root.left, level + 1, "L--- ")
+        print_tree(root.right, level + 1, "R--- ")
+
 if __name__ == "__main__":
+    # Create an AVL tree
     root = None
-    
-    data = [10, 20, 30, 40, 50, 25]
-    for value in data:
+
+    # Insert nodes
+    values = [10, 20, 30, 40, 50, 25]
+    for value in values:
         root = insert(root, value)
-    
-    print("Inorder traversal of the AVL tree:")
-    inorder_traversal(root)
+
+    print("Original AVL tree:")
+    print_tree(root)
+
+    # Delete a node
+    delete_value = 30
+    root = delete_node(root, delete_value)
+    print(f"AVL tree after deleting {delete_value}:")
+    print_tree(root)
