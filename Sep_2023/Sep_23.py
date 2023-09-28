@@ -17,5 +17,5 @@ class Solution:
 arr = [1, 3, 5, 2, 2]
 n = len(arr)
 sol = Solution()
-result = sol.equilibriumPoint(arr)
+result = sol.equilibriumPoint(arr, n)
 print(result)  # Output: 3
