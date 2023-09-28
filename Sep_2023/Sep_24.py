@@ -1,3 +1,5 @@
+# Find duplicates in an array
+
 class Solution:
     def duplicates(self, arr, n):
         cnt = [0] * n
@@ -19,5 +21,5 @@ class Solution:
 arr = [1, 3, 3, 2, 2, 5, 5]
 n = len(arr)
 sol = Solution()
-result = sol.duplicates(arr)
+result = sol.duplicates(arr, n)
 print(result)  # Output: [2, 3, 5]
