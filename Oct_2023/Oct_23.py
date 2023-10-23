@@ -1,5 +1,4 @@
 # Maximum sum increasing subsequence
-
 class Solution:
     def maxSumIS(self, arr, n):
         dp = list(arr)
