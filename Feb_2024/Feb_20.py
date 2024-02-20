@@ -2,23 +2,17 @@
 
 class Solution:
     def wordBreak(self, n, s, dictionary):
-        # Create a set for faster lookup
-        dictionary_set = set(dictionary)
-        
-        # Initialize a boolean array to track if substrings from 0 to i can be segmented
-        dp = [False] * (n + 1)
-        dp[0] = True
-        
-        # Iterate through the string
-        for i in range(1, n + 1):
-            # Check if the substring from 0 to i can be segmented
-            for j in range(i):
-                if dp[j] and s[j:i] in dictionary_set:
-                    dp[i] = True
+        # Complete this function
+        nn=len(s)
+        dp=[0]*(nn+1)
+        dp[nn]=1
+        for i in range(nn-1,-1,-1) :
+            for w in dictionary :
+                if i+len(w) <= nn and s[i:i+len(w)] == w :
+                    dp[i]=dp[i+len(w)]
+                if dp[i] :
                     break
-        
-        # Return True if the entire string can be segmented
-        return dp[n]
+        return dp[0]
 
 # Example usage
 if __name__ == "__main__":
